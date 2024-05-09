@@ -30,6 +30,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
+tasks.named('test') {
+	useJUnitPlatform()
+	jvmArgs("-Xshare:off")
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
