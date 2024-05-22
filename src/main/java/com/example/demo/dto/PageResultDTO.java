@@ -35,7 +35,6 @@ public class PageResultDTO<DTO, EN> {
 
     //Function<EN, DTO> fn: EN(엔티티)을 DTO로 매핑하는 함수
     public PageResultDTO(Page<EN> result, Function<EN,DTO> fn){
-
         dtoList = result.stream().map(fn).collect(Collectors.toList());
 
         totalPage =result.getTotalPages();
