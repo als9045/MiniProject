@@ -35,10 +35,14 @@ public class PageResultDTO<DTO, EN> {
 
     //Function<EN, DTO> fn: EN(엔티티)을 DTO로 매핑하는 함수
     public PageResultDTO(Page<EN> result, Function<EN,DTO> fn){
+
+        // 엔티티 리스트를 DTO 리스트로 변환
         dtoList = result.stream().map(fn).collect(Collectors.toList());
 
+        // 총 페이지 수 설정
         totalPage =result.getTotalPages();
 
+        // 페이지 정보 설정
         makePageList(result.getPageable());
     }
 

@@ -22,6 +22,7 @@ public class GuestbookServiceImple implements  GuestbookService{
 
     private final GuestbookRepository repository; //반드시 final로 선언
 
+
     @Override
     public Long register(GuestbookDTO dto) {
 
@@ -36,6 +37,28 @@ public class GuestbookServiceImple implements  GuestbookService{
 
         return entity.getGno();
     }
+
+    @Override
+    public void remove(Long gno) {
+        repository.deleteAllById(gno);
+    }
+
+    @Override
+    public void modify(GuestbookDTO dto) {
+
+        //업데이트 하는 항목은 제목, 내용
+    Optional<Guestbook> result = repository.findById(dto.getGno());
+        if(result.isPresent()){
+
+            Guestbook entity = result.get();
+
+            entity.changeTitle(dto.getTitle());
+            entity.changeContent(dto.getContent());
+
+            repository.save(entity);
+        }
+    }
+
     public PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO){
 
         Pageable pageable = requestDTO.getPageable(Sort.by("gno").descending());

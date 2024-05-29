@@ -51,7 +51,7 @@ public class GuestbookController {
         return  "redirect:/guestbook/list";
     }
 
-    @GetMapping("/read")
+    @GetMapping({"/read", "/modify"})
     // @ModelAttribute("requestDTO") PageRequestDTO requestDTO
     //바인딩 : 요청받은 파라미터를 자동으로 자바 객체의 필드에 매핑
     //PageRequestDTO requestDTO를 "requestDTO" 모델에 저장
@@ -64,5 +64,31 @@ public class GuestbookController {
         GuestbookDTO dto = service.read(gno);
 
         model.addAttribute("dto", dto);
+    }
+
+    @PostMapping("/modify")
+    public String modifyPost(GuestbookDTO dto,@ModelAttribute("requestDTO") PageRequestDTO requestDTO,
+                             RedirectAttributes redirectAttributes){
+
+        log.info("dto.............." + dto);
+        service.modify(dto);
+
+        redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("gno", dto.getGno());
+
+        return "redirect:/guestbook/read";
+    }
+
+
+    @PostMapping("/remove")
+    public String remove(long gno, RedirectAttributes redirectAttributes){
+
+        log.info("Remove gno : "+gno);
+
+        service.remove(gno);
+
+        redirectAttributes.addFlashAttribute("msg", gno);
+
+        return "redirect:/guestbook/list";
     }
 }

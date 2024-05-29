@@ -8,6 +8,10 @@ import com.example.demo.entity.Guestbook;
 public interface GuestbookService {
     Long register(GuestbookDTO dto);
 
+    void remove(Long gno);
+
+    void modify(GuestbookDTO dto);
+
     PageResultDTO<GuestbookDTO, Guestbook> getList(PageRequestDTO requestDTO);
 
     GuestbookDTO read(Long gno);
