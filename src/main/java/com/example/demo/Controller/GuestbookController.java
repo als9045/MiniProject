@@ -29,8 +29,11 @@ public class GuestbookController {
 
     @GetMapping("list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
+        System.out.println("=====list=====");
+        System.out.println("=====dto====="+pageRequestDTO);
 
-        log.info("list............." + pageRequestDTO);
+        System.out.println("=====reslt=====" + service.getList(pageRequestDTO));
+
         model.addAttribute("result", service.getList(pageRequestDTO));
     }
 
@@ -42,9 +45,11 @@ public class GuestbookController {
     @PostMapping("/register")
     public String registerPost(GuestbookDTO dto, RedirectAttributes redirectAttributes){
 
-        log.info("dto.............." + dto);
+        System.out.println("=====registerPost=====");
+        System.out.println("dto = " + dto);
 
         long gno = service.register(dto);
+        System.out.println("=====gno====="+gno);
 
         redirectAttributes.addFlashAttribute("msg", gno);
 
@@ -75,6 +80,8 @@ public class GuestbookController {
 
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("gno", dto.getGno());
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
 
         return "redirect:/guestbook/read";
     }
